@@ -107,7 +107,7 @@ namespace CoreCodeCamp.Controllers
                     return Created(location, _mapper.Map<CampModel>(camp));
                 }
 
-                return BadRequest("Could not create camp");
+                return BadRequest("Could not update camp");
             }
             catch (Exception ex)
             {
@@ -133,6 +133,30 @@ namespace CoreCodeCamp.Controllers
                 }
                 // to avoid warning of return.
                 return BadRequest("Could not create camp");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
+            }
+        }
+
+        [HttpDelete("{moniker}")]
+        public async Task<IActionResult> Delete( string moniker)
+        {
+            try
+            {
+                var campToDelete = await _repository.GetCampAsync(moniker);
+
+                if (campToDelete == null) return NotFound($"Could not found camp with moniker: {moniker}");
+
+                _repository.Delete(campToDelete);
+
+                if ( await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+
+                return BadRequest("Could not delete camp");
             }
             catch (Exception ex)
             {
