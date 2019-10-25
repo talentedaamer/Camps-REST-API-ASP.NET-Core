@@ -154,9 +154,10 @@ namespace CoreCodeCamp.Controllers
                 if ( await _repository.SaveChangesAsync())
                 {
                     return Ok();
+                } else
+                {
+                    return BadRequest("Could not delete camp");
                 }
-
-                return BadRequest("Could not delete camp");
             }
             catch (Exception ex)
             {

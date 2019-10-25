@@ -153,5 +153,31 @@ namespace CoreCodeCamp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex.Message}");
             }
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete( string moniker, int id)
+        {
+            try
+            {
+                var talkToDelete = await _repository.GetTalkByMonikerAsync(moniker, id); // true to get speakers
+
+                if (talkToDelete == null) return NotFound($"Could not found Talk with Id: {id}");
+
+                _repository.Delete(talkToDelete);
+
+                if (await _repository.SaveChangesAsync())
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Could not delete Talk");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex.Message}");
+            }
+        }
     }
 }
