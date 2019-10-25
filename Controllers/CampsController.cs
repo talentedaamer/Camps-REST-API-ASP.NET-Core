@@ -36,7 +36,7 @@ namespace CoreCodeCamp.Controllers
                 return Ok(model);
             } catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
 
@@ -57,7 +57,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
 
@@ -79,7 +79,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch ( Exception )
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database Failure");
             }
         }
 
@@ -111,7 +111,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
             }
         }
 
@@ -136,7 +136,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
             }
         }
 
@@ -160,7 +160,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
             }
         }
     }
