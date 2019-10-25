@@ -107,7 +107,7 @@ namespace CoreCodeCamp.Controllers
                     return Created(location, _mapper.Map<CampModel>(camp));
                 }
 
-                return BadRequest("Could not user create camp");
+                return BadRequest("Could not create camp");
             }
             catch (Exception ex)
             {
@@ -115,18 +115,29 @@ namespace CoreCodeCamp.Controllers
             }
         }
 
-        //public async Task<ActionResult<CampModel>> Post( CampModel model )
-        //{
-        //    try
-        //    {
-        //        var camp = _mapper.Map<Camp>(model);
+        [HttpPut("{moniker}")]
+        public async Task<ActionResult<CampModel>> Put( string moniker, CampModel model)
+        {
+            try
+            {
+                var oldCamp = await _repository.GetCampAsync(moniker);
+                if (oldCamp == null) NotFound($"Could not find camp with moniker: {moniker}");
 
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
-        //    }
-        //}
+                //oldCamp.Name = model.Name;
+                _mapper.Map(model, oldCamp);
+
+                if ( await _repository.SaveChangesAsync() )
+                {
+                    CampModel campModel = _mapper.Map<CampModel>(oldCamp);
+                    return Ok(campModel);
+                }
+                // to avoid warning of return.
+                return BadRequest("Could not create camp");
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Database Failure {ex}");
+            }
+        }
     }
 }
